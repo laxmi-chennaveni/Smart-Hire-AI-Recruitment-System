@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 p-5 bg-white shadow-sm rounded-3">
+            <h1 class="display-4 fw-bold text-dark mb-3">👋 Welcome to JobPortal</h1>
+            <p class="fs-5 text-muted mb-5">Find your dream job or hire the best talent. Please log in or create a new account to explore the jobs.</p>
+            
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-5 fw-bold shadow-sm">🔐 Login</a>
+                <a href="{% url 'register' %}" class="btn btn-success btn-lg px-5 fw-bold shadow-sm">📝 Register / Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

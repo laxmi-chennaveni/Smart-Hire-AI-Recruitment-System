@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .skill-cell {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="p-4 bg-dark text-white rounded-3 shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>💼 Recruiter Dashboard</h2>
+                    <p class="text-light mb-0">Manage your job posts and view automated AI screenings.</p>
+                </div>
+                <a href="{% url 'post_job' %}" class="btn btn-success">+ Post a New Job</a>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card bg-primary text-white shadow-sm border-0 text-center p-3">
+                <h3>{{ total_apps }}</h3>
+                <p class="mb-0">Total Received Applications</p>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card bg-success text-white shadow-sm border-0 text-center p-3">
+                <h3>{{ shortlisted }}</h3>
+                <p class="mb-0">Shortlisted Candidates</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title border-bottom pb-2 mb-3">📋 Your Active Job Postings</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Required Skills</th>
+                                    <th>Date Posted</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in jobs %}
+                                <tr>
+                                    <td class="fw-bold text-dark">{{ job.title }}</td>
+                                    <td>
+                                        <span class="badge bg-secondary skill-cell" title="{{ job.requirements }}">
+                                            {{ job.requirements }}
+                                        </span>
+                                    </td>
+                                    <td>{{ job.created_at|date:"M d, Y" }}</td>
+                                    <td class="text-end" style="white-space: nowrap;">
+                                        <a href="{% url 'run_ai_screening' job.id %}" class="btn btn-sm btn-warning" title="Run AI Screening">🚀 AI</a>
+                                        <a href="{% url 'view_applicants' job.id %}" class="btn btn-sm btn-primary">View Applicants</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">You haven't posted any jobs yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

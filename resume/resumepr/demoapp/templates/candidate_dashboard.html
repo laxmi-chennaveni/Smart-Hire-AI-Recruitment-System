@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="p-4 bg-light rounded-3 shadow-sm">
+                <h2>👋 Welcome, {{ user.username }}!</h2>
+                <p class="text-muted mb-0">Role: <span class="badge bg-primary text-capitalize">{{ user.role }}</span></p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title border-bottom pb-2 text-primary">📂 Your Applications</h5>
+                    <div class="list-group list-group-flush mt-3">
+                        {% for app in applications %}
+                            <div class="list-group-item px-0">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <h6 class="mb-1 fw-bold">{{ app.job.title }}</h6>
+                                    <span class="badge {% if app.status == 'Shortlisted' %}bg-success{% elif app.status == 'Rejected' %}bg-danger{% else %}bg-warning{% endif %}">{{ app.status }}</span>
+                                </div>
+                                <small class="text-success d-block mt-1">
+                                    AI Match Score: <strong>{{ app.match_score }}%</strong>
+                                </small>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted my-2 small text-center">You haven't applied to any jobs yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title border-bottom pb-2 text-success">💼 Available Job Openings</h5>
+                    <div class="list-group list-group-flush mt-3">
+                        {% for job in available_jobs %}
+                            <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1 fw-bold text-dark">{{ job.title }}</h6>
+                                    <small class="text-muted d-block">Skills: {{ job.requirements }}</small>
+                                </div>
+                                <a href="{% url 'apply_job' job.id %}" class="btn btn-sm btn-outline-primary px-3">Apply</a>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted my-2 small text-center">No new job openings available right now.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
